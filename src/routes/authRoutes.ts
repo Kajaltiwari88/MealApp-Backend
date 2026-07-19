@@ -1,12 +1,20 @@
 import { Router } from "express";
-import { login, logout, refreshToken, signup, verifyOtp } from "../controllers/authController";
+import {
+  login,
+  logout,
+  refreshToken,
+  resendOTP,
+  signup,
+  verifyOtp,
+} from "../controllers/authController";
 
-const router =Router();
+const router = Router();
 
-router.post("/signup",signup);
+router.post("/signup", signup);
 router.post("/verify-otp", verifyOtp);
-router.post("/login",login);
-router.post("refresh-token",refreshToken);
-router.post("logout",logout);
+router.post("/resend-otp", resendOTP);
+router.post("/login", login);
+router.post("refresh-token", refreshToken);
+router.post("logout", logout);
 
 export default router;

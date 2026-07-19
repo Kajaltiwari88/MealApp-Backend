@@ -30,7 +30,7 @@ export const sendEmail = async (
 
     htmlContent: `
       <h2>Your OTP is: ${otp}</h2>
-      <p>This OTP is valid for 10 minutes.</p>
+      <p>This OTP is valid for 1 minute.</p>
     `,
   });
 };
