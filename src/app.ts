@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import authRoutes from "./routes/authRoutes";
+import favRoutes from "./routes/favRoutes";
 import rateLimit from "express-rate-limit";
 
 const app = express();
@@ -12,10 +13,11 @@ app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
-  })
+  }),
 );
 app.use(helmet());
 
 app.use("/auth", authRoutes);
+app.use("/api", favRoutes);
 
 export default app;

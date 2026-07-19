@@ -7,7 +7,6 @@ import { generateOtp } from "../utils/helpers";
 import { sendEmail } from "../utils/sendEmail";
 import { redis } from "../config/redis";
 
-
 export const signup = async (req: Request, res: Response) => {
   try {
     const { fullName, email, password } = req.body;
@@ -34,7 +33,6 @@ export const signup = async (req: Request, res: Response) => {
       },
     );
     const value = await redis.get(`signup:${email}`);
-    console.log("REDIS VALUE:", value);
 
     try {
       await sendEmail(email, otp);
@@ -190,7 +188,7 @@ export const login = async (req: Request, res: Response) => {
         email: user?.email,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       message: "Login failed",
       error,
