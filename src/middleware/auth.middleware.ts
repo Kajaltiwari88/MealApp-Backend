@@ -8,9 +8,10 @@ export const verifyToken = (
 ) => {
   try {
     const authHeader = req.headers.authorization;
-    console.log("Authorization Header:", req.header);
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
+        success: false,
         message: "Unauthorized",
       });
     }
@@ -18,14 +19,17 @@ export const verifyToken = (
     const token = authHeader.split(" ")[1];
 
     const decoded = jwt.verify(token, process.env.ACCESS_SECRET as string) as {
-      id: string;
+      userId: string;
     };
-    console.log("Decoded:", decoded);
-    (res.locals as { userId: string }).userId = decoded.id;
+
+    (res.locals as { userId: string }).userId = decoded.userId;
 
     next();
   } catch (error) {
+    console.log(error);
+
     return res.status(401).json({
+      success: false,
       message: "Invalid or expired token",
     });
   }

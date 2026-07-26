@@ -8,7 +8,7 @@ export const addfavorite = async (req: Request, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         success: false,
-        message: "Unautorized",
+        message: "Unauthorized",
       });
     }
 
@@ -26,7 +26,7 @@ export const addfavorite = async (req: Request, res: Response) => {
       });
     }
 
-    const fav = await Favorite.create({
+    const favorite = await Favorite.create({
       user: userId,
       mealId,
       mealName,
@@ -37,10 +37,10 @@ export const addfavorite = async (req: Request, res: Response) => {
     return res.status(201).json({
       success: true,
       message: "Recipe saved successfully.",
-      data: fav,
+      data: favorite,
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
 
     return res.status(500).json({
       success: false,
@@ -56,20 +56,22 @@ export const getFavorites = async (req: Request, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         success: false,
-        message: "Unautorized",
+        message: "Unauthorized",
       });
     }
 
-    const fav = await Favorite.findOne({
+    const favorites = await Favorite.find({
       user: userId,
-    }).sort({ createdAt: -1 });
+    }).sort({
+      createdAt: -1,
+    });
 
     return res.status(200).json({
       success: true,
-      data: fav,
+      data: favorites,
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
 
     return res.status(500).json({
       success: false,
@@ -87,9 +89,10 @@ export const removeFavorites = async (req: Request, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         success: false,
-        message: "Unautorized",
+        message: "Unauthorized",
       });
     }
+
     await Favorite.findOneAndDelete({
       user: userId,
       mealId,
@@ -97,10 +100,10 @@ export const removeFavorites = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      message: "Recipe removed from favorities successfully!",
+      message: "Recipe removed successfully.",
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
 
     return res.status(500).json({
       success: false,
